@@ -12,10 +12,16 @@ namespace WebApp.Controllers;
 public class TransactionController : ControllerBase
 {
     private readonly IGenericService<Transaction> _transactionService;
+    private readonly IExtraTransactionService transactionService;
 
     public TransactionController(IGenericService<Transaction> transactionService)
     {
         _transactionService = transactionService;
+    }
+
+    public TransactionController( IExtraTransactionService _transactionService)
+    {
+        transactionService = _transactionService;
     }
 
     [HttpGet]
@@ -28,6 +34,12 @@ public class TransactionController : ControllerBase
     public ApiResponse<Transaction> GetById(int id)
     {
         return _transactionService.GetById(id);
+    }
+
+    [HttpGet("{status}")]
+    public ApiResponse<List<Transaction>> GetByStatus(string status)
+    {
+        return transactionService.GetByStatus(status);
     }
 
     [HttpPost]

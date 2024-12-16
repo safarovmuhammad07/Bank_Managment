@@ -8,8 +8,24 @@ namespace WebApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CustomerController(IGenericService<Customer> customerService) : ControllerBase
+public class CustomerController: ControllerBase
 {
+    
+    
+    private readonly IExtraCustomer _customerService;
+    private readonly IGenericService<Customer> customerService;
+
+    public CustomerController(IGenericService<Customer> _customerService)
+    {
+        customerService = _customerService;
+    }
+
+    public CustomerController(IExtraCustomer customerService)
+    {
+        _customerService = customerService;
+    }
+    
+    
     [HttpGet]
     public ApiResponse<List<Customer>> GetAll()
     {
@@ -20,6 +36,13 @@ public class CustomerController(IGenericService<Customer> customerService) : Con
     {
         return customerService.GetById(id);
     }
+
+    [HttpGet("{customerId}")]
+    public ApiResponse<int> GetCustomerCount()
+    {
+        return _customerService.GetCustomerCount();
+    }
+    
     [HttpPost]
     public ApiResponse<bool> Add(Customer customer)
     {
