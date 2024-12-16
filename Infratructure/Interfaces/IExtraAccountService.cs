@@ -3,8 +3,8 @@ using Infratructure.Responses;
 
 namespace Infratructure.Interfaces;
 
-public interface IExtraAccountService
+public interface IExtraAccountService:IGenericService<Account>
 {
-    ApiResponse<List<Account>> GetByStatus(string status);
+    Task<ApiResponse<List<Account>>> GetByStatus(string status);
     public ApiResponse<List<Account>> GetByType(string type);
 }

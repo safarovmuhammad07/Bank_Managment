@@ -25,38 +25,38 @@ public class TransactionController : ControllerBase
     }
 
     [HttpGet]
-    public ApiResponse<List<Transaction>> GetAll()
+    public async Task<ApiResponse<List<Transaction>>> GetAll()
     {
-        return _transactionService.GetAll();
+        return await _transactionService.GetAll();
     }
 
     [HttpGet("{id:int}")]
-    public ApiResponse<Transaction> GetById(int id)
+    public async Task<ApiResponse<Transaction>> GetById(int id)
     {
-        return _transactionService.GetById(id);
+        return await _transactionService.GetById(id);
     }
 
     [HttpGet("{status}")]
-    public ApiResponse<List<Transaction>> GetByStatus(string status)
+    public async Task<ApiResponse<List<Transaction>>> GetByStatus(string status)
     {
-        return transactionService.GetByStatus(status);
+        return await transactionService.GetByStatus(status);
     }
 
     [HttpPost]
-    public ApiResponse<bool> Add(Transaction transaction)
+    public async Task<ApiResponse<bool>> Add(Transaction transaction)
     {
-        return _transactionService.Add(transaction);
+        return await _transactionService.Add(transaction);
     }
 
     [HttpPut]
-    public ApiResponse<bool> Update(Transaction transaction)
+    public async Task<ApiResponse<bool>> Update(Transaction transaction)
     {
-        return _transactionService.Update(transaction);
+        return await _transactionService.Update(transaction);
     }
 
     [HttpDelete("{id:int}")]
-    public ApiResponse<bool> Delete(int id)
+    public async Task<ApiResponse<bool>> Delete(int id)
     {
-        return _transactionService.Delete(id);
+        return await _transactionService.Delete(id);
     }
 }

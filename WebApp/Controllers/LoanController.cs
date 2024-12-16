@@ -19,32 +19,32 @@ public class LoanController : ControllerBase
     }
 
     [HttpGet]
-    public ApiResponse<List<Loan>> GetAll()
+    public async Task<ApiResponse<List<Loan>>> GetAll()
     {
-        return _loanService.GetAll();
+        return await _loanService.GetAll();
     }
 
     [HttpGet("{id:int}")]
-    public ApiResponse<Loan> GetById(int id)
+    public async Task<ApiResponse<Loan>> GetById(int id)
     {
-        return _loanService.GetById(id);
+        return await _loanService.GetById(id);
     }
 
     [HttpPost]
-    public ApiResponse<bool> Add(Loan loan)
+    public async Task<ApiResponse<bool>> Add(Loan loan)
     {
-        return _loanService.Add(loan);
+        return await _loanService.Add(loan);
     }
 
     [HttpPut]
-    public ApiResponse<bool> Update(Loan loan)
+    public async Task<ApiResponse<bool>> Update(Loan loan)
     {
-        return _loanService.Update(loan);
+        return await _loanService.Update(loan);
     }
 
     [HttpDelete("{id:int}")]
-    public ApiResponse<bool> Delete(int id)
+    public async Task<ApiResponse<bool>> Delete(int id)
     {
-        return _loanService.Delete(id);
+        return await _loanService.Delete(id);
     }
 }

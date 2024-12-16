@@ -4,7 +4,7 @@ using Infratructure.Responses;
 
 namespace Infratructure.Interfaces;
 
-public interface IExtraCustomer
+public interface IExtraCustomer:IGenericService<Customer>
 {
-    ApiResponse<int> GetCustomerCount();
+    Task<ApiResponse<int>> GetCustomerCount();
 }

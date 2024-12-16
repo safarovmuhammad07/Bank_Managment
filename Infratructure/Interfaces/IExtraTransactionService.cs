@@ -4,7 +4,7 @@ using Transaction = Domain.Entities.Transaction;
 
 namespace Infratructure.Interfaces;
 
-public interface IExtraTransactionService
+public interface IExtraTransactionService:IGenericService<Transaction>
 {
-    public ApiResponse<List<Transaction>> GetByStatus(string status);
+     Task<ApiResponse<List<Transaction>>> GetByStatus(string status);
 }

@@ -19,32 +19,32 @@ public class BranchController : ControllerBase
     }
 
     [HttpGet]
-    public ApiResponse<List<Branch>> GetAll()
+    public async Task<ApiResponse<List<Branch>>> GetAll()
     {
-        return _branchService.GetAll();
+        return await _branchService.GetAll();
     }
 
     [HttpGet("{id:int}")]
-    public ApiResponse<Branch> GetById(int id)
+    public async Task<ApiResponse<Branch>> GetById(int id)
     {
-        return _branchService.GetById(id);
+        return await _branchService.GetById(id);
     }
 
     [HttpPost]
-    public ApiResponse<bool> Add(Branch branch)
+    public async Task<ApiResponse<bool>> Add(Branch branch)
     {
-        return _branchService.Add(branch);
+        return await _branchService.Add(branch);
     }
 
     [HttpPut]
-    public ApiResponse<bool> Update(Branch branch)
+    public async Task<ApiResponse<bool>> Update(Branch branch)
     {
-        return _branchService.Update(branch);
+        return await _branchService.Update(branch);
     }
 
     [HttpDelete("{id:int}")]
-    public ApiResponse<bool> Delete(int id)
+    public async Task<ApiResponse<bool>> Delete(int id)
     {
-        return _branchService.Delete(id);
+        return await _branchService.Delete(id);
     }
 }

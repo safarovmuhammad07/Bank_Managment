@@ -8,54 +8,54 @@ using Npgsql;
 
 namespace Infratructure.Services;
 
-public class TransactionService(IContext context) : IGenericService<Transaction>, IExtraTransactionService
+public class TransactionService(DapperContext context) :IExtraTransactionService
 {
-    public ApiResponse<List<Transaction>> GetAll()
+    public async Task<ApiResponse<List<Transaction>>> GetAll()
     {
         using var connection = context.Connection();
         const string sql = "select * from transactions where deletedat is null";
-        var res = connection.Query<Transaction>(sql).ToList();
-        return new ApiResponse<List<Transaction>>(res);
+        var res = await connection.QueryAsync<Transaction>(sql);
+        return new ApiResponse<List<Transaction>>(res.ToList());
     }
 
-    public ApiResponse<Transaction> GetById(int id)
+    public async Task<ApiResponse<Transaction>> GetById(int id)
     {
         using var connection = context.Connection();
         const string sql = "select * from transactions where transactionid = @Id and deletedat is null";
-        var res = connection.QuerySingleOrDefault<Transaction>(sql, new { Id = id });
+        var res = await connection.QuerySingleOrDefaultAsync<Transaction>(sql, new { Id = id });
         return res == null ? new ApiResponse<Transaction>(HttpStatusCode.NotFound, "Transaction not found") : new ApiResponse<Transaction>(res);
     }
 
-    public ApiResponse<List<Transaction>> GetByStatus(string status)
+    public async Task<ApiResponse<List<Transaction>>> GetByStatus(string status)
     {
         using var connection = context.Connection();
         const string sql = "select * from transactions where status = @status";
-        var res = connection.Query<Transaction>(sql, new { Status = status }).ToList();
-        return new ApiResponse<List<Transaction>>(res);
+        var res =  await connection.QueryAsync<Transaction>(sql, new { Status = status });
+        return new ApiResponse<List<Transaction>>(res.ToList());
     }
     
 
-    public ApiResponse<bool> Add(Transaction data)
+    public async Task<ApiResponse<bool>> Add(Transaction data)
     {
         using var connection = context.Connection();
         const string sql = "insert into transactions(transactionstatus, dateissued, amount, createdat, fromaccountid, toaccountid) values(@TransactionStatus, @DateIssued, @Amount, current_date, @FromAccountId, @ToAccountId);";
-        var res = connection.Execute(sql, data);
+        var res = await connection.ExecuteAsync(sql, data);
         return res == 0 ? new ApiResponse<bool>(HttpStatusCode.InternalServerError, "Internal server error") : new ApiResponse<bool>(res > 0);
     }
 
-    public ApiResponse<bool> Update(Transaction data)
+    public async Task<ApiResponse<bool>> Update(Transaction data)
     {
         using var connection = context.Connection();
         const string sql = "update transactions set transactionstatus = @TransactionStatus, dateissued = @DateIssued, amount = @Amount, fromaccountid = @FromAccountId, toaccountid = @ToAccountId where transactionid = @TransactionId and deletedat is null;";
-        var res = connection.Execute(sql, data);
+        var res = await connection.ExecuteAsync(sql, data);
         return res == 0 ? new ApiResponse<bool>(HttpStatusCode.InternalServerError, "Internal server error") : new ApiResponse<bool>(res > 0);
     }
 
-    public ApiResponse<bool> Delete(int id)
+    public async Task<ApiResponse<bool>> Delete(int id)
     {
         using var connection = context.Connection();
         const string sql = "update transactions set deletedat = current_date where transactionid = @Id ";
-        var res = connection.Execute(sql, new { Id = id });
+        var res = await connection.ExecuteAsync(sql, new { Id = id });
         return res == 0 ? new ApiResponse<bool>(HttpStatusCode.NotFound, "Transaction not found or already deleted") : new ApiResponse<bool>(res > 0);
     }
 }

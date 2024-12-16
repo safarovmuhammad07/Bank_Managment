@@ -4,29 +4,14 @@ using Npgsql;
 
 namespace Infratructure.DataContext;
 
-public interface IContext
-{
-    IDbConnection Connection();
-}
 
-public class DapperContext : IContext
+public class DapperContext 
 {
     private readonly string connectionString =
-        "Server=localhost; Port = 5432; Database = bank_dapper_db; User Id = postgres; Password = 12345;";
+        "Server=localhost; Port = 5432; Database = test; User Id = postgres; Password = 1234;";
 
     public IDbConnection Connection()
     {
         return new NpgsqlConnection(connectionString);
-    }
-}
-
-public class SqlServerContext : IContext
-{
-    private readonly string connectionString =
-        "Server=localhost; Port = 5432; Database = bank_dapper_db; User Id = postgres; Password = 12345;";
-
-    public IDbConnection  Connection()
-    {
-        return new SqlConnection(connectionString);
     }
 }

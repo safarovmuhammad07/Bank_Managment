@@ -7,12 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<IContext,DapperContext>();
-builder.Services.AddScoped<IGenericService<Customer>, CustomerService>();
-builder.Services.AddScoped<IGenericService<Account>, AccountService>();
+builder.Services.AddScoped<DapperContext>();
+builder.Services.AddScoped<IExtraCustomer, CustomerService>();
+builder.Services.AddScoped<IExtraAccountService, AccountService>();
 builder.Services.AddScoped<IGenericService<Branch>, BranchService>();
 builder.Services.AddScoped<IGenericService<Loan>, LoanService>();
-builder.Services.AddScoped<IGenericService<Transaction>, TransactionService>();
+builder.Services.AddScoped<IExtraTransactionService, TransactionService>();
+
 
 var app = builder.Build();
 
